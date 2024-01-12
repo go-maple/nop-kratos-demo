@@ -1,5 +1,8 @@
 # nop-kratos-demo
 
+# nop中nacos meta 填写下面内容需要注意
+`
+`
 # 了解一些kratos基础
 
 https://go-kratos.dev/
@@ -18,6 +21,11 @@ make build
 
 ./bin/server -conf ./configs/config.yaml
 
+启动成功后日志大概是下面内容
+DEBUG msg=config loaded: config_local.yaml format: yaml
+INFO msg=watcher's ctx cancel : context canceled
+2024-01-12T21:35:24.075+0800    INFO    nacos_client/nacos_client.go:79 logDir:</tmp/nacos/log>   cacheDir:</tmp/nacos/cache>
+INFO ts=2024-01-12T21:35:25+08:00 caller=grpc/server.go:212 service.id=glennxudeMacBook-Pro.local service.name=server service.version= trace.id= span.id= msg=[gRPC] server listening on: [::]:9001
 `
 ## 从根目录进入blog
 `
@@ -26,6 +34,12 @@ cd blog
 make build
 
 ./bin/blog -conf ./configs/config.yaml
+
+启动成功后大概是下面内容
+INFO msg=[resolver] update instances: [{"id":"192.168.30.101#9001#DEFAULT#DEFAULT_GROUP@@server.grpc","name":"DEFAULT_GROUP@@server.grpc","version":"","metadata":{"kind":"grpc","version":""},"endpoints":["grpc://192.168.30.101:9001"]}]
+Handle connection.
+INFO ts=2024-01-12T21:38:20+08:00 caller=grpc/server.go:212 service.id=glennxudeMacBook-Pro.local service.name=blog service.version= trace.id= span.id= msg=[gRPC] server listening on: [::]:9000
+INFO ts=2024-01-12T21:38:20+08:00 caller=http/server.go:317 service.id=glennxudeMacBook-Pro.local service.name=blog service.version= trace.id= span.id= msg=[HTTP] server listening on: [::]:8000
 `
 #
 
