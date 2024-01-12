@@ -2,19 +2,31 @@
 
 # 了解一些kratos基础
 
+https://go-kratos.dev/
 
 # clone下代码
+git clone git@github.com:go-maple/nop-kratos-demo.git
 
+cd nop-kratos-demo
 # 编译服务
 
 ## 从根目录进入vite server
+`
 cd server
+
 make build
+
 ./bin/server -conf ./configs/config.yaml
+
+`
 ## 从根目录进入blog
+`
 cd blog
+
 make build
+
 ./bin/blog -conf ./configs/config.yaml
+`
 #
 
 # 命令行调用
