@@ -1,0 +1,82 @@
+syntax = "proto3";
+package blog.internal.conf;
+
+option go_package = "github.com/go-maple/nop-kratos-demo/blog/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+
+message Bootstrap {
+    Trace  trace = 1;
+    Server server = 2;
+    Data data = 3;
+    Config config = 4;
+    Registry registry = 5;
+}
+
+message Server {
+    message HTTP {
+        string network = 1;
+        string addr = 2;
+        google.protobuf.Duration timeout = 3;
+    }
+    message GRPC {
+        string network = 1;
+        string addr = 2;
+        google.protobuf.Duration timeout = 3;
+    }
+    HTTP http = 1;
+    GRPC grpc = 2;
+}
+
+message Data {
+    message Database {
+        string driver = 1;
+        string source = 2;
+    }
+    message Redis {
+        string network = 1;
+        string addr = 2;
+        string password = 3;
+        int32 db = 4;
+        google.protobuf.Duration dial_timeout = 5;
+        google.protobuf.Duration read_timeout = 6;
+        google.protobuf.Duration write_timeout = 7;
+    }
+    Database database = 1;
+    Redis redis = 2;
+
+    message Facade {
+        string vite_server = 10;
+    }
+    Facade facade = 3;
+}
+
+message Trace {
+    string endpoint = 1;
+}
+
+message Config {
+    message Nacos {
+      string address = 1;
+      uint64 port = 2;
+      string log_dir = 3;
+      string cache_dir = 4;
+      string namespace_id = 5;
+      string username = 6;
+      string password = 7;
+    }
+    Nacos nacos = 1;
+}
+  
+message Registry {
+    message Nacos {
+        string address = 1;
+        uint64 port = 2;
+        string log_dir = 3;
+        string cache_dir = 4;
+        string namespace_id = 5;
+        string username = 6;
+        string password = 7;
+    }
+    Nacos nacos = 1;
+}

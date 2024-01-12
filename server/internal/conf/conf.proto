@@ -1,0 +1,47 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "github.com/go-maple/nop-kratos-demo/server/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+
+message Bootstrap {
+  Server server = 1;
+  Config config = 2;
+  Registry registry = 3;
+}
+
+message Server {
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  GRPC grpc = 1;
+}
+
+message Config {
+  message Nacos {
+    string address = 1;
+    uint64 port = 2;
+    string log_dir = 3;
+    string cache_dir = 4;
+    string namespace_id = 5;
+    string username = 6;
+    string password = 7;
+  }
+  Nacos nacos = 1;
+}
+
+message Registry {
+  message Nacos {
+      string address = 1;
+      uint64 port = 2;
+      string log_dir = 3;
+      string cache_dir = 4;
+      string namespace_id = 5;
+      string username = 6;
+      string password = 7;
+  }
+  Nacos nacos = 1;
+}

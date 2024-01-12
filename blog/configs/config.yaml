@@ -1,0 +1,31 @@
+trace:
+  endpoint: http://127.0.0.1:14268/api/traces
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 5s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 5s
+data:
+  database:
+    driver: mysql
+    source: root:password@tcp(127.0.0.1:3306)/testdb?charset=utf8mb4&parseTime=True&loc=Local
+  redis:
+    addr: 127.0.0.1:6379
+    password: password
+    db : 0
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+  facade:
+    vite_server: 'discovery:///server'
+
+registry:
+  nacos:
+    address: '127.0.0.1'
+    port: 6448
+    log_dir: '/tmp/nacos/log'
+    cache_dir: '/tmp/nacos/cache'
+    namespace_id: 'public'
+    username: "nacos"
+    password: "nacos"
