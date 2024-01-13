@@ -18,7 +18,7 @@ cd nop-kratos-demo
 `
 go generate ./...
 
-生成结果
+### 生成结果
 proto: api/blog/v1/blog.proto
 proto: api/blog/v1/error.proto
 proto: internal/conf/conf.proto
