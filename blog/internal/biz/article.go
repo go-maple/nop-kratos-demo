@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-maple/nop-kratos-demo/blog/pkg/errors"
 )
 
 type Article struct {
@@ -35,6 +36,7 @@ type HelloMessage struct {
 
 type ViteRepo interface {
 	SayHello(ctx context.Context, content string) (*HelloMessage, error)
+	SayHelloError(ctx context.Context, content string) (*HelloMessage, error)
 }
 
 type ArticleUsecase struct {
@@ -87,6 +89,11 @@ func (uc *ArticleUsecase) Create(ctx context.Context, article *Article) (string,
 	uc.logger.Log(log.LevelWarn, "msg:", msg)
 	uc.repo.CreateArticle(ctx, article)
 	return msg.Message, nil
+}
+
+func (uc *ArticleUsecase) CreateError(ctx context.Context, article *Article) (string, error) {
+	_, err := uc.vite.SayHelloError(ctx, article.Content)
+	return "", errors.WithStackLevel(err, log.LevelInfo)
 }
 
 func (uc *ArticleUsecase) Update(ctx context.Context, id int64, article *Article) error {

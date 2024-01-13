@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package api.blog.v1;
+
+import "errors/errors.proto";
+
+option go_package = "github.com/go-maple/nop-kratos-demo/blog/api/blog/v1;v1";
+
+enum ErrorReason {
+
+    option (errors.default_code) = 500;
+
+    Success = 0;
+
+
+    USER_NOT_FOUND = 1 [(errors.code) = 404];
+    CONTENT_MISSING = 2 [(errors.code) = 400];
+    
+    Global_Service_Unauthorized = 3 [(errors.code) = 401];
+    Global_Service_Forbidden    = 4 [(errors.code) = 403];
+    Global_Service_NotFound     = 5 [(errors.code) = 404];
+
+    INVALID_PARAMS = 100;
+
+    BLOG_INVALID_ID = 200;
+
+    // create article tx failed
+    CreateArticleFailed         = 1000;
+
+    CreateError         = 1001;
+
+    GetUserIdFailed = 30002 [(errors.code) = 400]; 
+}

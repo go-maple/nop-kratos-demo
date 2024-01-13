@@ -6,6 +6,8 @@ option go_package = "github.com/go-maple/nop-kratos-demo/server/v1;v1";
 
 service Greeter {
   rpc SayHello (HelloRequest) returns (HelloReply);
+
+  rpc SayHelloError (HelloRequest) returns (HelloReply);
 }
 
 message HelloRequest {

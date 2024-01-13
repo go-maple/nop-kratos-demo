@@ -14,6 +14,20 @@ service BlogService {
             body: "*"
         };
     }
+
+    rpc CreateArticleError (CreateArticleRequest) returns (CreateArticleReply) {
+        option (google.api.http) = {
+            post: "/v1/article_err"
+            body: "*"
+        };
+    }
+    
+    rpc CreateError (CreateArticleRequest) returns (CreateArticleReply) {
+        option (google.api.http) = {
+            post: "/v1/error"
+            body: "*"
+        };
+    }
     rpc UpdateArticle (UpdateArticleRequest) returns (UpdateArticleReply) {
         option (google.api.http) = {
             put: "/v1/article/{id}"

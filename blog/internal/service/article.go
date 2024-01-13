@@ -6,6 +6,7 @@ import (
 	"go.opentelemetry.io/otel"
 
 	pb "github.com/go-maple/nop-kratos-demo/blog/api/blog/v1"
+	v1 "github.com/go-maple/nop-kratos-demo/blog/api/blog/v1"
 	"github.com/go-maple/nop-kratos-demo/blog/internal/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
@@ -30,6 +31,20 @@ func (s *BlogService) CreateArticle(ctx context.Context, req *pb.CreateArticleRe
 			Content: content,
 		},
 	}, err
+}
+
+func (s *BlogService) CreateArticleError(ctx context.Context, req *pb.CreateArticleRequest) (*pb.CreateArticleReply, error) {
+	s.log.Infof("input data %v", req)
+	_, err := s.article.CreateError(ctx, &biz.Article{
+		Title:   req.Title,
+		Content: req.Content,
+	})
+	return nil, err
+}
+
+func (s *BlogService) CreateError(ctx context.Context, req *pb.CreateArticleRequest) (*pb.CreateArticleReply, error) {
+	s.log.Infof("input data %v", req)
+	return nil, v1.ErrorCreateError("create Error")
 }
 
 func (s *BlogService) UpdateArticle(ctx context.Context, req *pb.UpdateArticleRequest) (*pb.UpdateArticleReply, error) {

@@ -25,3 +25,7 @@ func (s *GreeterService) SayHello(ctx context.Context, in *v1.HelloRequest) (*v1
 	}
 	return &v1.HelloReply{Message: "Hello " + g.Name}, nil
 }
+
+func (s *GreeterService) SayHelloError(ctx context.Context, in *v1.HelloRequest) (*v1.HelloReply, error) {
+	return nil, v1.ErrorCreateServerFailed("SayHelloError")
+}

@@ -19,11 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	BlogService_CreateArticle_FullMethodName = "/blog.api.v1.BlogService/CreateArticle"
-	BlogService_UpdateArticle_FullMethodName = "/blog.api.v1.BlogService/UpdateArticle"
-	BlogService_DeleteArticle_FullMethodName = "/blog.api.v1.BlogService/DeleteArticle"
-	BlogService_GetArticle_FullMethodName    = "/blog.api.v1.BlogService/GetArticle"
-	BlogService_ListArticle_FullMethodName   = "/blog.api.v1.BlogService/ListArticle"
+	BlogService_CreateArticle_FullMethodName      = "/blog.api.v1.BlogService/CreateArticle"
+	BlogService_CreateArticleError_FullMethodName = "/blog.api.v1.BlogService/CreateArticleError"
+	BlogService_CreateError_FullMethodName        = "/blog.api.v1.BlogService/CreateError"
+	BlogService_UpdateArticle_FullMethodName      = "/blog.api.v1.BlogService/UpdateArticle"
+	BlogService_DeleteArticle_FullMethodName      = "/blog.api.v1.BlogService/DeleteArticle"
+	BlogService_GetArticle_FullMethodName         = "/blog.api.v1.BlogService/GetArticle"
+	BlogService_ListArticle_FullMethodName        = "/blog.api.v1.BlogService/ListArticle"
 )
 
 // BlogServiceClient is the client API for BlogService service.
@@ -31,6 +33,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BlogServiceClient interface {
 	CreateArticle(ctx context.Context, in *CreateArticleRequest, opts ...grpc.CallOption) (*CreateArticleReply, error)
+	CreateArticleError(ctx context.Context, in *CreateArticleRequest, opts ...grpc.CallOption) (*CreateArticleReply, error)
+	CreateError(ctx context.Context, in *CreateArticleRequest, opts ...grpc.CallOption) (*CreateArticleReply, error)
 	UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...grpc.CallOption) (*UpdateArticleReply, error)
 	DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...grpc.CallOption) (*DeleteArticleReply, error)
 	GetArticle(ctx context.Context, in *GetArticleRequest, opts ...grpc.CallOption) (*GetArticleReply, error)
@@ -48,6 +52,24 @@ func NewBlogServiceClient(cc grpc.ClientConnInterface) BlogServiceClient {
 func (c *blogServiceClient) CreateArticle(ctx context.Context, in *CreateArticleRequest, opts ...grpc.CallOption) (*CreateArticleReply, error) {
 	out := new(CreateArticleReply)
 	err := c.cc.Invoke(ctx, BlogService_CreateArticle_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *blogServiceClient) CreateArticleError(ctx context.Context, in *CreateArticleRequest, opts ...grpc.CallOption) (*CreateArticleReply, error) {
+	out := new(CreateArticleReply)
+	err := c.cc.Invoke(ctx, BlogService_CreateArticleError_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *blogServiceClient) CreateError(ctx context.Context, in *CreateArticleRequest, opts ...grpc.CallOption) (*CreateArticleReply, error) {
+	out := new(CreateArticleReply)
+	err := c.cc.Invoke(ctx, BlogService_CreateError_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -95,6 +117,8 @@ func (c *blogServiceClient) ListArticle(ctx context.Context, in *ListArticleRequ
 // for forward compatibility
 type BlogServiceServer interface {
 	CreateArticle(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
+	CreateArticleError(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
+	CreateError(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
 	UpdateArticle(context.Context, *UpdateArticleRequest) (*UpdateArticleReply, error)
 	DeleteArticle(context.Context, *DeleteArticleRequest) (*DeleteArticleReply, error)
 	GetArticle(context.Context, *GetArticleRequest) (*GetArticleReply, error)
@@ -108,6 +132,12 @@ type UnimplementedBlogServiceServer struct {
 
 func (UnimplementedBlogServiceServer) CreateArticle(context.Context, *CreateArticleRequest) (*CreateArticleReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateArticle not implemented")
+}
+func (UnimplementedBlogServiceServer) CreateArticleError(context.Context, *CreateArticleRequest) (*CreateArticleReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateArticleError not implemented")
+}
+func (UnimplementedBlogServiceServer) CreateError(context.Context, *CreateArticleRequest) (*CreateArticleReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateError not implemented")
 }
 func (UnimplementedBlogServiceServer) UpdateArticle(context.Context, *UpdateArticleRequest) (*UpdateArticleReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateArticle not implemented")
@@ -148,6 +178,42 @@ func _BlogService_CreateArticle_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(BlogServiceServer).CreateArticle(ctx, req.(*CreateArticleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BlogService_CreateArticleError_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateArticleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BlogServiceServer).CreateArticleError(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BlogService_CreateArticleError_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BlogServiceServer).CreateArticleError(ctx, req.(*CreateArticleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BlogService_CreateError_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateArticleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BlogServiceServer).CreateError(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: BlogService_CreateError_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BlogServiceServer).CreateError(ctx, req.(*CreateArticleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -234,6 +300,14 @@ var BlogService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateArticle",
 			Handler:    _BlogService_CreateArticle_Handler,
+		},
+		{
+			MethodName: "CreateArticleError",
+			Handler:    _BlogService_CreateArticleError_Handler,
+		},
+		{
+			MethodName: "CreateError",
+			Handler:    _BlogService_CreateError_Handler,
 		},
 		{
 			MethodName: "UpdateArticle",

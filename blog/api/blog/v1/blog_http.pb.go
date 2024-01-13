@@ -20,6 +20,8 @@ var _ = binding.EncodeURL
 const _ = http.SupportPackageIsVersion1
 
 const OperationBlogServiceCreateArticle = "/blog.api.v1.BlogService/CreateArticle"
+const OperationBlogServiceCreateArticleError = "/blog.api.v1.BlogService/CreateArticleError"
+const OperationBlogServiceCreateError = "/blog.api.v1.BlogService/CreateError"
 const OperationBlogServiceDeleteArticle = "/blog.api.v1.BlogService/DeleteArticle"
 const OperationBlogServiceGetArticle = "/blog.api.v1.BlogService/GetArticle"
 const OperationBlogServiceListArticle = "/blog.api.v1.BlogService/ListArticle"
@@ -27,6 +29,8 @@ const OperationBlogServiceUpdateArticle = "/blog.api.v1.BlogService/UpdateArticl
 
 type BlogServiceHTTPServer interface {
 	CreateArticle(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
+	CreateArticleError(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
+	CreateError(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
 	DeleteArticle(context.Context, *DeleteArticleRequest) (*DeleteArticleReply, error)
 	GetArticle(context.Context, *GetArticleRequest) (*GetArticleReply, error)
 	ListArticle(context.Context, *ListArticleRequest) (*ListArticleReply, error)
@@ -36,6 +40,8 @@ type BlogServiceHTTPServer interface {
 func RegisterBlogServiceHTTPServer(s *http.Server, srv BlogServiceHTTPServer) {
 	r := s.Route("/")
 	r.POST("/v1/article", _BlogService_CreateArticle0_HTTP_Handler(srv))
+	r.POST("/v1/article_err", _BlogService_CreateArticleError0_HTTP_Handler(srv))
+	r.POST("/v1/error", _BlogService_CreateError0_HTTP_Handler(srv))
 	r.PUT("/v1/article/{id}", _BlogService_UpdateArticle0_HTTP_Handler(srv))
 	r.DELETE("/v1/article/{id}", _BlogService_DeleteArticle0_HTTP_Handler(srv))
 	r.GET("/v1/article/{id}", _BlogService_GetArticle0_HTTP_Handler(srv))
@@ -54,6 +60,50 @@ func _BlogService_CreateArticle0_HTTP_Handler(srv BlogServiceHTTPServer) func(ct
 		http.SetOperation(ctx, OperationBlogServiceCreateArticle)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.CreateArticle(ctx, req.(*CreateArticleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreateArticleReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _BlogService_CreateArticleError0_HTTP_Handler(srv BlogServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateArticleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationBlogServiceCreateArticleError)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateArticleError(ctx, req.(*CreateArticleRequest))
+		})
+		out, err := h(ctx, &in)
+		if err != nil {
+			return err
+		}
+		reply := out.(*CreateArticleReply)
+		return ctx.Result(200, reply)
+	}
+}
+
+func _BlogService_CreateError0_HTTP_Handler(srv BlogServiceHTTPServer) func(ctx http.Context) error {
+	return func(ctx http.Context) error {
+		var in CreateArticleRequest
+		if err := ctx.Bind(&in); err != nil {
+			return err
+		}
+		if err := ctx.BindQuery(&in); err != nil {
+			return err
+		}
+		http.SetOperation(ctx, OperationBlogServiceCreateError)
+		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
+			return srv.CreateError(ctx, req.(*CreateArticleRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -154,6 +204,8 @@ func _BlogService_ListArticle0_HTTP_Handler(srv BlogServiceHTTPServer) func(ctx 
 
 type BlogServiceHTTPClient interface {
 	CreateArticle(ctx context.Context, req *CreateArticleRequest, opts ...http.CallOption) (rsp *CreateArticleReply, err error)
+	CreateArticleError(ctx context.Context, req *CreateArticleRequest, opts ...http.CallOption) (rsp *CreateArticleReply, err error)
+	CreateError(ctx context.Context, req *CreateArticleRequest, opts ...http.CallOption) (rsp *CreateArticleReply, err error)
 	DeleteArticle(ctx context.Context, req *DeleteArticleRequest, opts ...http.CallOption) (rsp *DeleteArticleReply, err error)
 	GetArticle(ctx context.Context, req *GetArticleRequest, opts ...http.CallOption) (rsp *GetArticleReply, err error)
 	ListArticle(ctx context.Context, req *ListArticleRequest, opts ...http.CallOption) (rsp *ListArticleReply, err error)
@@ -173,6 +225,32 @@ func (c *BlogServiceHTTPClientImpl) CreateArticle(ctx context.Context, in *Creat
 	pattern := "/v1/article"
 	path := binding.EncodeURL(pattern, in, false)
 	opts = append(opts, http.Operation(OperationBlogServiceCreateArticle))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *BlogServiceHTTPClientImpl) CreateArticleError(ctx context.Context, in *CreateArticleRequest, opts ...http.CallOption) (*CreateArticleReply, error) {
+	var out CreateArticleReply
+	pattern := "/v1/article_err"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationBlogServiceCreateArticleError))
+	opts = append(opts, http.PathTemplate(pattern))
+	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return &out, err
+}
+
+func (c *BlogServiceHTTPClientImpl) CreateError(ctx context.Context, in *CreateArticleRequest, opts ...http.CallOption) (*CreateArticleReply, error) {
+	var out CreateArticleReply
+	pattern := "/v1/error"
+	path := binding.EncodeURL(pattern, in, false)
+	opts = append(opts, http.Operation(OperationBlogServiceCreateError))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

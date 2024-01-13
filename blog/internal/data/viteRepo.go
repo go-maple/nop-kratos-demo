@@ -88,3 +88,10 @@ func (v *viteRepo) SayHello(ctx context.Context, content string) (*biz.HelloMess
 		Message: vite.Message,
 	}, err
 }
+
+func (v *viteRepo) SayHelloError(ctx context.Context, content string) (*biz.HelloMessage, error) {
+	_, err := v.viteCli.SayHelloError(ctx, &vite.HelloRequest{
+		Name: content,
+	})
+	return nil, err
+}
